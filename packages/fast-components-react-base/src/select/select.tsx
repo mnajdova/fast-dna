@@ -1,12 +1,20 @@
-import React from "react";
+import React, { RefObject } from "react";
 import Foundation, { HandledProps } from "@microsoft/fast-components-foundation-react";
-import { get, isEqual } from "lodash-es";
+import { get, isEqual, isNil } from "lodash-es";
 import { KeyCodes } from "@microsoft/fast-web-utilities";
 import { SelectClassNameContract } from "@microsoft/fast-components-class-name-contracts-base";
-import { SelectHandledProps, SelectProps, SelectUnhandledProps } from "./select.props";
+import {
+    SelectHandledProps,
+    SelectMenuFlyoutConfig,
+    SelectProps,
+    SelectUnhandledProps,
+} from "./select.props";
 import { ListboxItemProps } from "../listbox-item";
 import Listbox from "../listbox";
-import Button from "../button";
+import ViewportPostioner, {
+    ViewportPositionerVerticalPosition,
+    AxisPositioningMode,
+} from "../viewport-positioner";
 import { canUseDOM } from "exenv-es6";
 import { DisplayNamePrefix } from "../utilities";
 
@@ -45,11 +53,10 @@ class Select extends Foundation<SelectHandledProps, SelectUnhandledProps, Select
         onValueChange: void 0,
         placeholder: void 0,
         autoFocus: void 0,
+        menuFlyoutConfig: void 0,
     };
 
-    private rootElement: React.RefObject<HTMLDivElement> = React.createRef<
-        HTMLDivElement
-    >();
+    private rootElement: React.RefObject<HTMLDivElement> = React.createRef();
 
     /**
      * constructor
@@ -239,28 +246,84 @@ class Select extends Foundation<SelectHandledProps, SelectUnhandledProps, Select
             shouldFocusOnMount = this.props.multiselectable;
         }
         return (
-            <Listbox
-                labelledBy={this.props.labelledBy}
-                disabled={this.props.disabled}
-                focusItemOnMount={shouldFocusOnMount}
-                multiselectable={this.props.multiselectable}
-                defaultSelection={this.state.selectedItems}
-                selectedItems={this.props.selectedItems}
-                onSelectedItemsChanged={this.updateSelection}
-                onBlur={this.handleMenuBlur}
+            <ViewportPostioner
+                anchor={this.rootElement}
+                {...this.getFlyoutConfig()}
                 managedClasses={{
-                    listbox: get(this.props.managedClasses, "select_menu", ""),
-                    listbox__disabled: get(
+                    viewportPositioner: get(
                         this.props.managedClasses,
-                        "select_menuDisabled",
+                        "select_viewportPositioner",
+                        ""
+                    ),
+                    viewportPositioner__left: get(
+                        this.props.managedClasses,
+                        "select_viewportPositioner__left",
+                        ""
+                    ),
+                    viewportPositioner__right: get(
+                        this.props.managedClasses,
+                        "select_viewportPositioner__right",
+                        ""
+                    ),
+                    viewportPositioner__top: get(
+                        this.props.managedClasses,
+                        "select_viewportPositioner__top",
+                        ""
+                    ),
+                    viewportPositioner__bottom: get(
+                        this.props.managedClasses,
+                        "select_viewportPositioner__bottom",
+                        ""
+                    ),
+                    viewportPositioner__horizontalInset: get(
+                        this.props.managedClasses,
+                        "select_viewportPositioner__horizontalInset",
+                        ""
+                    ),
+                    viewportPositioner__verticalInset: get(
+                        this.props.managedClasses,
+                        "select_viewportPositioner__verticalInset",
                         ""
                     ),
                 }}
             >
-                {this.props.children}
-            </Listbox>
+                <Listbox
+                    labelledBy={this.props.labelledBy}
+                    disabled={this.props.disabled}
+                    focusItemOnMount={shouldFocusOnMount}
+                    multiselectable={this.props.multiselectable}
+                    defaultSelection={this.state.selectedItems}
+                    selectedItems={this.props.selectedItems}
+                    onSelectedItemsChanged={this.updateSelection}
+                    onBlur={this.handleMenuBlur}
+                    managedClasses={{
+                        listbox: get(this.props.managedClasses, "select_menu", ""),
+                        listbox__disabled: get(
+                            this.props.managedClasses,
+                            "select_menuDisabled",
+                            ""
+                        ),
+                    }}
+                >
+                    {this.props.children}
+                </Listbox>
+            </ViewportPostioner>
         );
     }
+
+    /**
+     * Gets the flyout menu configuration
+     */
+    private getFlyoutConfig = (): SelectMenuFlyoutConfig => {
+        if (!isNil(this.props.menuFlyoutConfig)) {
+            return this.props.menuFlyoutConfig;
+        }
+
+        // positioning is disabled by default
+        // return {
+        //     verticalPositioningMode: AxisPositioningMode.uncontrolled
+        // };
+    };
 
     /**
      * Updates selection state and associated values
@@ -341,14 +404,14 @@ class Select extends Foundation<SelectHandledProps, SelectUnhandledProps, Select
             return null;
         }
         return (
-            <Button
+            <button
                 disabled={props.disabled}
                 aria-labelledby={props.labelledBy || null}
                 aria-haspopup={true}
                 aria-expanded={state.isMenuOpen}
             >
                 {state.displayString}
-            </Button>
+            </button>
         );
     };
 

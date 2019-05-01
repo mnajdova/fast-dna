@@ -27,6 +27,15 @@ const managedClasses: SelectManagedClasses = {
         select_menu: "select_menu",
         select_menu__open: "select_menu__open",
         select__multiSelectable: "select__multiSelectable",
+        select_viewportPositioner: "select_viewportPositioner",
+        select_viewportPositioner__left: "select_viewportPositioner__left",
+        select_viewportPositioner__right: "select_viewportPositioner__right",
+        select_viewportPositioner__top: "select_viewportPositioner__top",
+        select_viewportPositioner__bottom: "select_viewportPositioner__bottom",
+        select_viewportPositioner__horizontalFlipInward:
+            "select_viewportPositioner__horizontalInset",
+        select_viewportPositioner__verticalFlipInward:
+            "select_viewportPositioner__verticalInset",
     },
 };
 
