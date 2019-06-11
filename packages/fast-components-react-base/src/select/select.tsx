@@ -11,10 +11,7 @@ import {
 } from "./select.props";
 import { ListboxItemProps } from "../listbox-item";
 import Listbox from "../listbox";
-import ViewportPostioner, {
-    ViewportPositionerVerticalPosition,
-    AxisPositioningMode,
-} from "../viewport-positioner";
+import ViewportPostioner, { AxisPositioningMode } from "../viewport-positioner";
 import { canUseDOM } from "exenv-es6";
 import { DisplayNamePrefix } from "../utilities";
 
@@ -320,9 +317,10 @@ class Select extends Foundation<SelectHandledProps, SelectUnhandledProps, Select
         }
 
         // positioning is disabled by default
-        // return {
-        //     verticalPositioningMode: AxisPositioningMode.uncontrolled
-        // };
+        return {
+            verticalPositioningMode: AxisPositioningMode.uncontrolled,
+            horizontalPositioningMode: AxisPositioningMode.uncontrolled,
+        };
     };
 
     /**
