@@ -1,7 +1,11 @@
 import { withDefaults } from "@microsoft/fast-jss-utilities";
 import { Direction } from "@microsoft/fast-web-utilities";
-import { accentBaseColor, accentPalette, neutralPalette } from "../default-palette";
-import { white } from "../utilities/color/color-constants";
+import { accentPalette, neutralPalette } from "../default-palette";
+import {
+    accentBaseColor,
+    neutralBaseColor,
+    white,
+} from "../utilities/color/color-constants";
 import { Palette } from "../utilities/color/palette";
 import { defaultFontWeights, FontWeight } from "../utilities/fonts";
 import designSystemSchema from "./design-system.schema";
