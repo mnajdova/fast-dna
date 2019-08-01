@@ -1,12 +1,8 @@
-import { Direction } from "@microsoft/fast-web-utilities";
-import { white } from "../utilities/color/color-constants";
-import {
-    ColorRGBA64,
-    ComponentStateColorPalette,
-    parseColorHexRGB,
-} from "@microsoft/fast-colors";
-import { Palette } from "../utilities/color/palette";
 import { withDefaults } from "@microsoft/fast-jss-utilities";
+import { Direction } from "@microsoft/fast-web-utilities";
+import { accentBaseColor, accentPalette, neutralPalette } from "../default-palettes";
+import { white } from "../utilities/color/color-constants";
+import { Palette } from "../utilities/color/palette";
 import { defaultFontWeights, FontWeight } from "../utilities/fonts";
 import designSystemSchema from "./design-system.schema";
 
@@ -172,12 +168,6 @@ export interface DesignSystem {
     neutralOutlineActiveDelta: number;
 }
 
-export function createColorPalette(baseColor: ColorRGBA64): Palette {
-    return new ComponentStateColorPalette({
-        baseColor,
-    }).palette.map((color: ColorRGBA64) => color.toStringHexRGB().toUpperCase());
-}
-
 const designSystemDefaults: DesignSystem = {
     backgroundColor: white,
     contrast: 0,
@@ -192,9 +182,9 @@ const designSystemDefaults: DesignSystem = {
     fontWeight: defaultFontWeights,
     disabledOpacity: 0.3,
     outlineWidth: 1,
-    neutralPalette: createColorPalette(parseColorHexRGB("#808080")),
-    accentPalette: createColorPalette(parseColorHexRGB("#0078D4")),
-    accentBaseColor: "#0078D4",
+    neutralPalette,
+    accentPalette,
+    accentBaseColor,
 
     /**
      * Recipe Deltas
