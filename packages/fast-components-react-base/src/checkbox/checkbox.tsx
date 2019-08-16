@@ -56,6 +56,7 @@ class Checkbox extends Foundation<
         disabled: void 0,
         inputId: void 0,
         indeterminate: void 0,
+        label: void 0,
         managedClasses: void 0,
         name: void 0,
         onChange: void 0,
@@ -114,6 +115,7 @@ class Checkbox extends Foundation<
                 <span
                     className={get(this.props, "managedClasses.checkbox_stateIndicator")}
                 />
+                {this.renderLabelBySlot()}
                 {this.renderLabel()}
             </div>
         );
@@ -153,9 +155,10 @@ class Checkbox extends Foundation<
     }
 
     /**
+     * @deprecated - remove this method in next major version
      * Render label if it exists
      */
-    private renderLabel(): Array<React.ReactElement<any>> {
+    private renderLabelBySlot(): Array<React.ReactElement<any>> {
         return React.Children.map(
             this.withSlot(CheckboxSlot.label),
             (label: React.ReactElement<any>): React.ReactElement<any> => {
@@ -177,6 +180,12 @@ class Checkbox extends Foundation<
                 return React.cloneElement(label, { className });
             }
         );
+    }
+
+    private renderLabel(): React.ReactNode {
+        if (typeof this.props.label === "function") {
+            return this.props.label(get(this.props.managedClasses, "checkbox_label", ""));
+        }
     }
 
     /**
