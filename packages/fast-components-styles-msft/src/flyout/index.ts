@@ -5,17 +5,21 @@ import { applyFloatingCornerRadius } from "../utilities/border";
 import { applyElevation, ElevationMultiplier } from "../utilities/elevation";
 
 const styles: ComponentStyles<FlyoutClassNameContract, DesignSystem> = {
-    flyout: {
+    flyout_positioner: {
         display: "none",
-        background: ensureDesignSystemDefaults(
-            (designSystem: DesignSystem): string => designSystem.backgroundColor
-        ),
-        ...applyFloatingCornerRadius(),
-        ...applyElevation(ElevationMultiplier.e14),
         zIndex: "1",
         '&[aria-hidden="false"]': {
             display: "block",
         },
+    },
+    flyout_visual: {
+        background: ensureDesignSystemDefaults(
+            (designSystem: DesignSystem): string => designSystem.backgroundColor
+        ),
+        height: "100%",
+        width: "100%",
+        ...applyFloatingCornerRadius(),
+        ...applyElevation(ElevationMultiplier.e14),
     },
     flyout__top: {},
     flyout__bottom: {},

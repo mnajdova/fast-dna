@@ -81,9 +81,7 @@ class Flyout extends Foundation<FlyoutHandledProps, FlyoutUnhandledProps, {}> {
     public render(): React.ReactElement<HTMLDivElement> {
         return (
             <ViewportPositioner
-                {...this.unhandledProps()}
                 ref={this.rootEl}
-                role="dialog"
                 aria-label={this.props.label}
                 aria-labelledby={this.props.labelledBy}
                 aria-describedby={this.props.describedBy}
@@ -122,7 +120,12 @@ class Flyout extends Foundation<FlyoutHandledProps, FlyoutUnhandledProps, {}> {
                     width: this.props.width,
                 }}
             >
+                <div
+                className={get(this.props.managedClasses, "flyout_visual", "")}
+                {...this.unhandledProps()}
+                role="dialog">
                 {this.props.children}
+                </div>
             </ViewportPositioner>
         );
     }
@@ -164,7 +167,7 @@ class Flyout extends Foundation<FlyoutHandledProps, FlyoutUnhandledProps, {}> {
 
     private generateManagedClassNames(): ViewportPositionerClassNameContract {
         return {
-            viewportPositioner: get(this.props.managedClasses, "flyout", ""),
+            viewportPositioner: get(this.props.managedClasses, "flyout_positioner", ""),
             viewportPositioner__left: get(this.props.managedClasses, "flyout__left", ""),
             viewportPositioner__right: get(
                 this.props.managedClasses,
